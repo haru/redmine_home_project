@@ -53,7 +53,9 @@ jobs:
       - name: Clean
         run: bash -x ./.github/build-scripts/cleanup.sh
       - uses: codecov/codecov-action@v5
-        if: ${{ secrets.CODECOV_TOKEN != '' }}
+        if: ${{ env.CODECOV_TOKEN != '' }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Slack Notification on Failure
