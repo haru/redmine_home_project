@@ -1,7 +1,7 @@
 {
 	"folders": [
 		{
-			"path": "/usr/local/redmine/plugins/dummy",
+			"path": "/usr/local/redmine/plugins/redmine_home_project",
 		},
 		{
 			"path": "/usr/local/redmine",
