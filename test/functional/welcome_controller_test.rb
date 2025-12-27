@@ -9,12 +9,12 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   def setup
     @request.session[:user_id] = nil
     User.current = nil
-    # プラグイン設定を初期化（レコードを作成）
+    # Initialize plugin settings (create record)
     Setting.plugin_redmine_home_project
   end
 
   def test_index_without_home_project_setting
-    # プラグイン設定なしの場合、通常のWelcome画面が表示される
+    # Without plugin setting, the default Welcome page is displayed
     Setting.plugin_redmine_home_project = { 'home_project_id' => '' }
 
     get :index
@@ -23,7 +23,7 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_home_project_setting_as_admin
-    # 管理者ユーザーでプロジェクトが設定されている場合、リダイレクトされる
+    # With home project setting as admin user, redirects to the project
     @request.session[:user_id] = 1 # admin
     Setting.plugin_redmine_home_project = { 'home_project_id' => '1' }
 
@@ -32,7 +32,7 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_home_project_setting_as_member
-    # プロジェクトメンバーの場合、リダイレクトされる
+    # With home project setting as project member, redirects to the project
     @request.session[:user_id] = 2 # jsmith (member of project 1)
     Setting.plugin_redmine_home_project = { 'home_project_id' => '1' }
 
@@ -41,7 +41,7 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_home_project_setting_as_non_member
-    # プロジェクトメンバーでない場合でも公開プロジェクトならリダイレクトされる
+    # With public project as non-member, redirects to the project
     @request.session[:user_id] = 3 # User without project 1 membership
     Setting.plugin_redmine_home_project = { 'home_project_id' => '1' } # public project
 
@@ -50,7 +50,7 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_private_project_as_non_member
-    # 非公開プロジェクトでメンバーでない場合、Welcome画面が表示される
+    # With private project as non-member, shows the Welcome page
     @request.session[:user_id] = 3 # User without project 2 membership
     Setting.plugin_redmine_home_project = { 'home_project_id' => '2' } # private project
 
@@ -60,7 +60,7 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_public_project_as_anonymous
-    # ゲストユーザーで公開プロジェクトの場合、リダイレクトされる
+    # With public project as anonymous user, redirects to the project
     Setting.plugin_redmine_home_project = { 'home_project_id' => '1' } # public project
 
     get :index
@@ -68,7 +68,7 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_private_project_as_anonymous
-    # ゲストユーザーで非公開プロジェクトの場合、Welcome画面が表示される
+    # With private project as anonymous user, shows the Welcome page
     Setting.plugin_redmine_home_project = { 'home_project_id' => '2' } # private project
 
     get :index
@@ -77,7 +77,7 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_non_existent_project
-    # 存在しないプロジェクトIDの場合、Welcome画面が表示される
+    # With non-existent project ID, shows the Welcome page
     Setting.plugin_redmine_home_project = { 'home_project_id' => '99999' }
 
     get :index
@@ -86,7 +86,7 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_invalid_project_id
-    # 不正なプロジェクトIDの場合、Welcome画面が表示される
+    # With invalid project ID, shows the Welcome page
     Setting.plugin_redmine_home_project = { 'home_project_id' => 'invalid' }
 
     get :index
@@ -95,7 +95,7 @@ class RedmineHomeProject::WelcomeControllerTest < Redmine::ControllerTest
   end
 
   def test_patch_is_applied
-    # パッチが正しく適用されていることを確認
+    # Verify that the patch is correctly applied
     assert WelcomeController.ancestors.include?(RedmineHomeProject::WelcomeControllerPatch)
   end
 end

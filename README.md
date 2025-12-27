@@ -1,50 +1,58 @@
 # Redmine Home Project Plugin
 
-Redmineのホーム画面を指定したプロジェクトの概要画面に変更するプラグインです。
+A Redmine plugin that redirects the home screen (Welcome page) to a selected project's overview page.
 
-## 機能
+## Features
 
-- Redmineのルート画面（`/`）を特定のプロジェクトの概要画面にリダイレクト
-- プラグイン設定画面から簡単にホームプロジェクトを選択可能
-- ユーザーの権限に応じた表示制御（ゲストユーザーは公開プロジェクトのみ）
+- Redirects Redmine's root page (`/`) to a specific project's overview page
+- Easy project selection through the plugin settings interface
+- Permission-based access control (guest users can only access public projects)
 
-## 要件
+## Requirements
 
-- Redmine 6.0 以上
+- Redmine 6.0 or higher
 - Ruby 3.x
 - Rails 7.x
 
-## インストール
+## Installation
 
-1. プラグインディレクトリにクローン
+1. Clone the plugin into your Redmine plugins directory
    ```bash
    cd /path/to/redmine/plugins
    git clone [repository_url] redmine_home_project
    ```
 
-2. Redmineを再起動
+2. Restart Redmine
    ```bash
    touch /path/to/redmine/tmp/restart.txt
    ```
+   Note: Restart method depends on your web server (Puma, Unicorn, WEBrick, etc.)
 
-## 使い方
+## Usage
 
-1. Redmine管理画面 > プラグイン > 「Redmine Home Project plugin」の「設定」をクリック
-2. ホームプロジェクトとして表示したいプロジェクトを選択
-3. 「保存」ボタンをクリック
-4. Redmineのホーム画面（`/`）にアクセスすると、選択したプロジェクトの概要画面が表示されます
+1. Go to Redmine Administration > Plugins > "Redmine Home Project plugin" and click "Configure"
+2. Select the project you want to display as the home screen
+3. Click "Apply"
+4. When you access Redmine's home screen (`/`), you will be redirected to the selected project's overview page
 
-## アンインストール
+## Uninstallation
 
 ```bash
 rm -rf /path/to/redmine/plugins/redmine_home_project
 touch /path/to/redmine/tmp/restart.txt
 ```
 
-## ライセンス
+## Testing
+
+```bash
+cd /path/to/redmine
+bundle exec rake redmine:plugins:test NAME=redmine_home_project
+```
+
+## License
 
 MIT License
 
-## 作者
+## Author
 
 Author Name

@@ -34,9 +34,10 @@ This plugin uses the **Controller Patch Pattern** - a standard Redmine plugin te
 ### Key Files
 
 - `init.rb` - Plugin registration and settings partial configuration
-- `lib/redmine_home_project/welcome_controller_patch.rb` - Redirect logic (to be implemented)
-- `app/views/settings/_redmine_home_project_settings.html.erb` - Admin settings UI (to be implemented)
-- `config/locales/{ja,en}.yml` - I18n strings (to be implemented)
+- `lib/redmine_home_project/welcome_controller_patch.rb` - Redirect logic
+- `app/views/settings/_redmine_home_project_settings.html.erb` - Admin settings UI
+- `config/locales/{ja,en}.yml` - I18n strings
+- `test/functional/welcome_controller_test.rb` - Functional tests for redirect behavior
 
 ## Development Commands
 
@@ -55,10 +56,7 @@ bundle exec ruby -I"test" plugins/redmine_home_project/test/functional/welcome_c
 
 ### Restart Redmine (Development)
 
-```bash
-# After code changes, restart Redmine
-touch /usr/local/redmine/tmp/restart.txt
-```
+**Note**: This environment does not use Passenger, so `touch tmp/restart.txt` will not work. Redmine must be restarted manually by the user through their web server (Puma, Unicorn, WEBrick, etc.).
 
 ### Rails Console Testing
 
@@ -80,6 +78,22 @@ bundle exec rails console
 ```
 
 ## Important Redmine 6.x Conventions
+
+### Code Comments Language
+
+**All source code comments must be written in English.** This includes:
+- Ruby file comments
+- ERB template comments
+- Test comments
+- Inline documentation
+
+### Git Commit Messages
+
+**All Git commit messages must be written in English.** This applies to:
+- Commit message subjects
+- Commit message bodies
+- Branch names
+- Pull request titles and descriptions
 
 ### Frozen String Literals
 All Ruby files must start with:
@@ -123,6 +137,34 @@ The settings partial (`app/views/settings/_redmine_home_project_settings.html.er
 - `@settings` - Current plugin settings hash
 - Access to all Redmine helpers and models
 
+## Testing Considerations
+
+### Setting Plugin Settings in Tests
+
+In tests, plugin settings must be initialized and assigned directly using the actual Setting model (not stubs):
+
+```ruby
+def setup
+  # Initialize the plugin settings record
+  Setting.plugin_redmine_home_project
+end
+
+def test_something
+  # Set plugin settings for this test
+  Setting.plugin_redmine_home_project = { 'home_project_id' => '1' }
+  # ... test code
+end
+```
+
+**Do not use stubs** like `Setting.stubs(:plugin_redmine_home_project).returns(...)` as this can cause `NOT NULL constraint failed: settings.id` errors in SQLite.
+
+### Test Fixtures
+
+Tests use standard Redmine fixtures:
+- `projects` - Project 1 (ecookbook) is public, Project 2 (onlinestore) is private
+- `users` - User 1 is admin, User 2 (jsmith) is a member of project 1
+- `roles`, `members`, `member_roles` - Define project memberships
+
 ## Security Considerations
 
 - **Always check permissions** before redirecting: `User.current.allowed_to?(:view_project, project)`
@@ -130,11 +172,4 @@ The settings partial (`app/views/settings/_redmine_home_project_settings.html.er
 - **Validate project exists** before redirecting
 - Settings page is admin-only by default (Redmine handles this)
 
-## Documentation References
 
-Key documentation is in `docs/`:
-- `requirement.md` - Original Japanese requirements
-- `design.md` - Detailed technical design (Japanese)
-- `implementation_plan.md` - Step-by-step implementation guide (Japanese)
-
-All documentation is in Japanese as this is the project's working language.

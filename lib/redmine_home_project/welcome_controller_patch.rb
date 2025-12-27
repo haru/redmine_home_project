@@ -8,7 +8,7 @@ module RedmineHomeProject
       if home_project_id.present?
         project = Project.find_by(id: home_project_id)
 
-        # プロジェクトが存在し、ユーザー（ゲストユーザーを含む）が閲覧権限を持つ場合
+        # If project exists and user (including guest users) has view permission
         if project && User.current.allowed_to?(:view_project, project)
           redirect_to project_path(project)
           return
@@ -20,7 +20,7 @@ module RedmineHomeProject
   end
 end
 
-# Redmine 6.x では prepend を使用してパッチを適用
+# Apply patch using prepend for Redmine 6.x
 unless WelcomeController.included_modules.include?(RedmineHomeProject::WelcomeControllerPatch)
   WelcomeController.prepend RedmineHomeProject::WelcomeControllerPatch
 end
