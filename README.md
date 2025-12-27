@@ -6,7 +6,8 @@ A Redmine plugin that redirects the home screen (Welcome page) to a selected pro
 
 - Redirects Redmine's root page (`/`) to a specific project's overview page
 - Easy project selection through the plugin settings interface
-- Permission-based access control (guest users can only access public projects)
+- Permission-based access control (respects user permissions for project access)
+- Falls back to the default Welcome page if no project is configured or user lacks access
 
 ## Requirements
 
@@ -19,7 +20,7 @@ A Redmine plugin that redirects the home screen (Welcome page) to a selected pro
 1. Clone the plugin into your Redmine plugins directory
    ```bash
    cd /path/to/redmine/plugins
-   git clone [repository_url] redmine_home_project
+   git clone https://github.com/haru/redmine_home_project.git redmine_home_project
    ```
 
 2. Restart Redmine
@@ -34,6 +35,8 @@ A Redmine plugin that redirects the home screen (Welcome page) to a selected pro
 2. Select the project you want to display as the home screen
 3. Click "Apply"
 4. When you access Redmine's home screen (`/`), you will be redirected to the selected project's overview page
+
+**Note:** If the selected project is not accessible by the current user (e.g., a private project for anonymous users), the default Welcome page will be displayed instead.
 
 ## Uninstallation
 
@@ -51,8 +54,8 @@ bundle exec rake redmine:plugins:test NAME=redmine_home_project
 
 ## License
 
-MIT License
+MIT License - see [LICENSE](LICENSE) for details.
 
 ## Author
 
-Author Name
+[Haruyuki Iida](https://github.com/haru)
