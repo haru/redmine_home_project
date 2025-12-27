@@ -1,3 +1,4 @@
-# English strings go here for Rails i18n
 en:
-  # my_label: "My label"
+  label_home_project: "Home Project"
+  text_home_project_description: "Select a project to display on Redmine's home screen. The overview page of the selected project will be shown as the home screen. Guest users can only view public projects."
+  label_none: "(None)"

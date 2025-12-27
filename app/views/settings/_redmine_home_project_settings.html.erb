@@ -1,0 +1,15 @@
+<p>
+  <%= label_tag 'settings_home_project_id', l(:label_home_project) %>
+  <%= select_tag 'settings[home_project_id]',
+                 options_from_collection_for_select(
+                   Project.active.sorted,
+                   :id,
+                   :name,
+                   @settings['home_project_id']
+                 ),
+                 include_blank: l(:label_none) %>
+</p>
+
+<p class="description">
+  <%= l(:text_home_project_description) %>
+</p>
