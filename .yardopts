@@ -1,0 +1,3 @@
+lib/**/*.rb
+--exclude init.rb
+- README.md

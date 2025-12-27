@@ -72,3 +72,4 @@ yarn-debug.log*
 docs/
 .claude/settings.local.json
 Gemfile.lock
+.yardoc/

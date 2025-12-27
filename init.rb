@@ -17,3 +17,8 @@ end
 
 # Use require_relative for Redmine 6.x
 require_relative 'lib/redmine_home_project/welcome_controller_patch'
+
+# Apply patch using prepend for Redmine 6.x
+unless WelcomeController.included_modules.include?(RedmineHomeProject::WelcomeControllerPatch)
+  WelcomeController.prepend RedmineHomeProject::WelcomeControllerPatch
+end
