@@ -1,0 +1,4 @@
+ja:
+  label_home_project: "ホームプロジェクト"
+  text_home_project_description: "Redmineのホーム画面に表示するプロジェクトを選択してください。選択したプロジェクトの概要画面がホーム画面として表示されます。ゲストユーザーは公開プロジェクトのみ閲覧できます。"
+  label_none: "(なし)"
